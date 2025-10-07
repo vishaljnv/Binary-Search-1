@@ -3,26 +3,33 @@
 using namespace std;
 
 /* We are doing Binary search here.
- * Time Complexity   : O(log(n)) - Search space is divided by half every iteration
+ * Time Complexity   : O(log(m * n)) - Search space is divided by half every iteration
  * Space Complexity  : O(1)      - No extra space is being used 
  */
 bool searchMatrix(vector<vector<int>>& matrix, int target)
 {
-    int rows = matrix.size(), cols = matrix[0].size();
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
     int low = 0, high = (rows * cols) - 1;
-    int mid, row, col;
+    int i, j;
+
+    int mid = low + (high - low) / 2;
     while (low <= high) {
-        mid = (low + (high - low) / 2);
-        row = mid / cols;
-        col = mid % cols;
+        i = mid / cols;
+        j = mid % cols;
     
-        if (matrix[row][col] == target) {
+        if (matrix[i][j] == target) {
             return true;
-        } else if (matrix[row][col] > target) {
-            high = mid - 1;
-        } else {
-            low = mid + 1;
         }
+
+        if (matrix[i][j] < target) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+
+        mid = low + (high - low) / 2;
     }
         
     return false;
